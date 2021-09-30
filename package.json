@@ -1,9 +1,14 @@
 {
   "name": "hardhat-project",
   "devDependencies": {
-    "hardhat": "^2.6.4"
+    "@nomiclabs/hardhat-web3": "^2.0.0",
+    "@openzeppelin/test-helpers": "^0.5.13",
+    "hardhat": "^2.6.4",
+    "web3": "^1.5.3"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^4.3.2"
+    "@openzeppelin/contracts": "^4.3.2",
+    "keccak256": "^1.0.3",
+    "merkletreejs": "^0.2.24"
   }
 }
