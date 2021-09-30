@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 
-contract MerkleProofWrapper {
+contract MerkleMember {
     function verify(
         bytes32[] memory proof,
         bytes32 root,
