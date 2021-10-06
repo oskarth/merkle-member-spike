@@ -11,7 +11,7 @@ contract MerkleMember is ReentrancyGuard {
 //    }
 
     uint256 public joinFee = 1;
-    uint32 public immutable levels;
+    uint32 public immutable levels = 20;
     bytes32[] public filledSubtrees;
     bytes32[] public zeros;
     uint32 public currentRootIndex = 0;
@@ -22,10 +22,10 @@ contract MerkleMember is ReentrancyGuard {
 
     function verify(
         bytes32[] memory proof,
-        bytes32 root,
+        bytes32 _root,
         bytes32 leaf
     ) public pure returns (bool) {
-        return MerkleProof.verify(proof, root, leaf);
+        return MerkleProof.verify(proof, _root, leaf);
     }
 
     function _processJoin() internal {
