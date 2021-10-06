@@ -22,8 +22,11 @@ describe("Merkle member contract", function () {
   describe("Verification", function () {
 
     it("returns true for a valid Merkle proof", async function () {
-      const elements = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/='.split('');
-      const merkleTree = new MerkleTree(elements, keccak256, { hashLeaves: true, sortPairs: true });
+      const elements =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/='.split('');
+      const merkleTree = new MerkleTree(elements,
+                                        keccak256,
+                                        { hashLeaves: true, sortPairs: true });
 
       const root = merkleTree.getHexRoot();
 
@@ -37,7 +40,9 @@ describe("Merkle member contract", function () {
 
     it('returns false for an invalid Merkle proof', async function () {
       const correctElements = ['a', 'b', 'c'];
-      const correctMerkleTree = new MerkleTree(correctElements, keccak256, { hashLeaves: true, sortPairs: true });
+      const correctMerkleTree = new MerkleTree(correctElements,
+                                               keccak256,
+                                               { hashLeaves: true, sortPairs: true });
 
       const correctRoot = correctMerkleTree.getHexRoot();
 
@@ -46,14 +51,20 @@ describe("Merkle member contract", function () {
       const badElements = ['d', 'e', 'f'];
       const badMerkleTree = new MerkleTree(badElements);
 
-      const badProof = badMerkleTree.getHexProof(badElements[0], keccak256, { hashLeaves: true, sortPairs: true });
+      const badProof = badMerkleTree.getHexProof(badElements[0],
+                                                 keccak256,
+                                                 { hashLeaves: true, sortPairs: true });
 
-      expect(await deployedMerkleMember.verify(badProof, correctRoot, correctLeaf)).to.equal(false);
+      expect(await deployedMerkleMember.verify(badProof,
+                                               correctRoot,
+                                               correctLeaf)).to.equal(false);
     });
 
     it('returns false for a Merkle proof of invalid length', async function () {
       const elements = ['a', 'b', 'c'];
-      const merkleTree = new MerkleTree(elements, keccak256, { hashLeaves: true, sortPairs: true });
+      const merkleTree = new MerkleTree(elements,
+                                        keccak256,
+                                        { hashLeaves: true, sortPairs: true });
 
       const root = merkleTree.getHexRoot();
 
