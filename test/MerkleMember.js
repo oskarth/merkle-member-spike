@@ -78,4 +78,23 @@ describe("Merkle member contract", function () {
 
   });
 
+  describe("Join", function() {
+
+    it("returns event after joining", async function () {
+      // TODO insert
+      // TODO requires money
+      console.log("join");
+      // Trying to join with some random leaf entry
+      const leaf = keccak256("test");
+      //expect(await deployedMerkleMember.join(leaf)).to.equal(true);
+
+      // Don't know args?
+      await expect(deployedMerkleMember.join(leaf))
+        .to.emit(deployedMerkleMember, 'Join');
+//        .withArgs(leaf, 1, 2);
+    });
+
+    // TODO after, verify leaf in tree
+  });
+
 });
