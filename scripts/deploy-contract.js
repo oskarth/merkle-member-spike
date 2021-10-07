@@ -1,17 +1,15 @@
-async function deployContract() {
+async function main() {
   MerkleMember = await ethers.getContractFactory("MerkleMember");
   [owner, addr1, addr2, ...addrs] = await ethers.getSigners();
 
-  deployedMerkleMember = await MerkleMember.deploy();
+  contract = await MerkleMember.deploy();
 
-  return deployedMerkleMember;
+  console.log("Contract address is: %s", contract.address);
 }
 
-(async () => {
-  try {
-    const contract = await deployContract();
-    console.log("Contract address is: %s", contract.address);
-  } catch(err) {
-    console.error("Error", err);
-  }
-})()
+main()
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
