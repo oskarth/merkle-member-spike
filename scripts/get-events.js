@@ -13,24 +13,25 @@ let abi = [
 async function main() {
   const provider = new ethers.providers.JsonRpcProvider();
 
+  // Or use contracts factory here?
   let address = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
   let contract = new Contract(address, abi, provider)
 
-  // TODO
   var filter = contract.filters.Join()
-  // Oryou could pass in a parameter to the above call to filter by node, sine it is indexed,
-  // let filter = ens.filters.Transfer(ethers.utils.namehash("ricmoo.firefly.eth"));
-
-  // Now you can specify fromBlock and toBlock (you may pass in promises; no need to await)
-  filter.fromBlock = provider.getBlockNumber().then((b) => b - 50000);
+  var blockNumber = await provider.getBlockNumber();
+  filter.fromBlock = 0;
   filter.toBlock = "latest";
 
   console.log("filter", filter);
 
-  // And query:
-  provider.getLogs(filter).then((logs) => {
-    console.log(logs);
+  var logs = await provider.getLogs(filter);
+  console.log(logs);
+
+  let iface = new ethers.utils.Interface(abi);
+  logs.forEach((log) => {
+    console.log(iface.parseLog(log));
   });
+
 }
 
 

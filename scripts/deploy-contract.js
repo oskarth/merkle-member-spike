@@ -1,6 +1,7 @@
 async function main() {
-  MerkleMember = await ethers.getContractFactory("MerkleMember");
-  [owner, addr1, addr2, ...addrs] = await ethers.getSigners();
+ var provider = new ethers.providers.JsonRpcProvider();
+
+  MerkleMember = await ethers.getContractFactory("MerkleMember", provider.getSigner());
 
   contract = await MerkleMember.deploy();
 
