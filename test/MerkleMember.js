@@ -3,6 +3,10 @@ const keccak256 = require('keccak256');
 const { ethers } = require("hardhat");
 const { expect } = require('chai');
 
+let abi = [
+  "event Join(bytes32 leaf, uint32 leafIndex, uint256 timestamp)"
+];
+
 describe("Merkle member contract", function () {
 
   let MerkleMember;
@@ -115,7 +119,13 @@ describe("Merkle member contract", function () {
       // TODO Fix exit before done async
       var logs = await provider.getLogs(filter);
       console.log("*** event logs", logs);
-      // This shows up. Now I want arguments.
+
+      // Finally we get logs! Have to parse first.
+      let iface = new ethers.utils.Interface(abi);
+
+      logs.forEach((log) => {
+        console.log(iface.parseLog(log));
+      });
 
     });
 
