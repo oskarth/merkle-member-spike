@@ -1,6 +1,6 @@
 const { MerkleTree } = require('merkletreejs');
 const keccak256 = require('keccak256');
-
+const { ethers } = require("hardhat");
 const { expect } = require('chai');
 
 describe("Merkle member contract", function () {
@@ -16,6 +16,7 @@ describe("Merkle member contract", function () {
     MerkleMember = await ethers.getContractFactory("MerkleMember");
     [owner, addr1, addr2, ...addrs] = await ethers.getSigners();
 
+    console.log("Before each, deploy contract");
     deployedMerkleMember = await MerkleMember.deploy();
   });
 
@@ -91,10 +92,33 @@ describe("Merkle member contract", function () {
       // Don't know args?
       await expect(deployedMerkleMember.join(leaf))
         .to.emit(deployedMerkleMember, 'Join');
-//        .withArgs(leaf, 1, 2);
+      //        .withArgs(leaf, 1, 2);
+
+
+      //const [owner] = await ethers.getSigners();
+      // Is this a different provider?
+      //const provider = new ethers.providers.JsonRpcProvider();
+      const provider = ethers.provider;
+
+      //var filter = contract.filters.Join()
+      var filter = deployedMerkleMember.filters.Join()
+
+      var blockNumber = await provider.getBlockNumber();
+      //filter.fromBlock = blockNumber - 50000;
+      filter.fromBlock = 0;
+      //filter.fromBlock = provider.getBlockNumber().then((b) => b - 50000);
+      filter.toBlock = "latest";
+
+      console.log("filter", filter);
+
+      // And query:
+      // TODO Fix exit before done async
+      var logs = await provider.getLogs(filter);
+      console.log("*** event logs", logs);
+      // This shows up. Now I want arguments.
+
     });
 
-    // TODO after, verify leaf in tree
   });
 
 });
