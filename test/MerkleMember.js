@@ -20,7 +20,7 @@ describe("Merkle member contract", function () {
     MerkleMember = await ethers.getContractFactory("MerkleMember");
     [owner, addr1, addr2, ...addrs] = await ethers.getSigners();
 
-    console.log("Before each, deploy contract");
+    //console.log("Before each, deploy contract");
     deployedMerkleMember = await MerkleMember.deploy();
   });
 
@@ -85,50 +85,32 @@ describe("Merkle member contract", function () {
 
   describe("Join", function() {
 
+    // TODO Add sending of money to enable processJoin
     it("returns event after joining", async function () {
-      // TODO insert
-      // TODO requires money
-      console.log("join");
+
       // Trying to join with some random leaf entry
       const leaf = keccak256("test");
-      //expect(await deployedMerkleMember.join(leaf)).to.equal(true);
 
-      // Don't know args?
+      // XXX: Don't know args at this point
       await expect(deployedMerkleMember.join(leaf))
         .to.emit(deployedMerkleMember, 'Join');
       //        .withArgs(leaf, 1, 2);
 
-
-      //const [owner] = await ethers.getSigners();
-      // Is this a different provider?
-      //const provider = new ethers.providers.JsonRpcProvider();
       const provider = ethers.provider;
 
-      //var filter = contract.filters.Join()
       var filter = deployedMerkleMember.filters.Join()
-
-      var blockNumber = await provider.getBlockNumber();
-      //filter.fromBlock = blockNumber - 50000;
-      filter.fromBlock = 0;
+      //var blockNumber = await provider.getBlockNumber();
       //filter.fromBlock = provider.getBlockNumber().then((b) => b - 50000);
+      filter.fromBlock = 0;
       filter.toBlock = "latest";
 
-      console.log("filter", filter);
-
-      // And query:
-      // TODO Fix exit before done async
       var logs = await provider.getLogs(filter);
       console.log("*** event logs", logs);
 
-      // Finally we get logs! Have to parse first.
       let iface = new ethers.utils.Interface(abi);
-
       logs.forEach((log) => {
         console.log(iface.parseLog(log));
       });
-
     });
-
   });
-
 });
